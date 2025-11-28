@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sai Nikhil — Portfolio</title>
+  <meta name="description" content="Portfolio of Cheedella Sai Nikhil — Developer | Designer | Problem Solver">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#8bf3c9; --glass: rgba(255,255,255,0.03);
+      --maxw:1100px; --radius:12px; --ff: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;font-family:var(--ff);background:linear-gradient(180deg,#071021 0%,var(--bg) 100%);color:#fdfdfe;overflow-x:hidden;position:relative}
+
+    /* Starry background */
+    #stars{
+      position:fixed;
+      top:0;left:0;width:100%;height:100%;
+      z-index:-2;
+      background:transparent;
+    }
+
+    a { text-decoration: none; color: var(--accent); }
+    a:hover { color: #fff; }
+
+    body::before{
+      content:"";position:fixed;inset:0;
+      background:radial-gradient(circle at 20% 20%,rgba(139,243,201,0.2) 0%,transparent 50%),
+                 radial-gradient(circle at 80% 80%,rgba(139,243,201,0.15) 0%,transparent 40%),
+                 radial-gradient(circle at 50% 120%,rgba(255,255,255,0.08) 0%,transparent 50%);
+      animation: bgMove 20s ease-in-out infinite alternate;
+      z-index:-1;
+    }
+    @keyframes bgMove{0%{transform:translateY(0)}100%{transform:translateY(-50px)}}
+
+    .container{max-width:var(--maxw);margin:0 auto;padding:28px;animation:fadeIn 1.5s ease}
+    header{display:flex;align-items:center;justify-content:space-between;padding:12px 0;animation:slideDown 1.5s ease}
+    .logo{font-weight:700;letter-spacing:0.4px;font-size:18px}
+    nav a{margin-left:18px;font-size:14px;color:var(--muted);transition:0.3s}
+    .nav1:hover{color: white;text-shadow:0 0 6px var(--accent)}
+    .nav1{ text-decoration: none;}
+
+    .hero{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center;padding:28px 0}
+    
+    /* 🔥 Animate name, tagline, button */
+    .hero .intro h1{font-size:32px;margin:0 0 8px;opacity:0;animation:slideInLeft 1.5s ease forwards;}
+    .hero .intro p{margin:0 0 16px;color:var(--muted);opacity:0;animation:fadeUp 1.8s ease forwards;animation-delay:0.5s;}
+    .cta{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--accent);color:#042028;font-weight:600;transition:0.3s;
+      opacity:0;animation:fadeUp 2s ease forwards;animation-delay:1s;}
+    .cta:hover{background-color:#661475;color:white;box-shadow:0 0 8px var(--accent)}
+
+    .card{ background:linear-gradient(180deg,rgba(255,255,255,0.02),var(--glass));padding:18px;border-radius:var(--radius);box-shadow:0 6px 20px rgba(2,6,23,0.6);transition:0.4s}
+    .card:hover{transform:translateY(-5px);box-shadow:0 10px 28px rgba(139,243,201,0.3)}
+
+    .profile{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;animation:fadeIn 2.2s ease}
+    .avatar{width:160px;height:160px;border-radius:14px;background:linear-gradient(135deg,#2a3340,#17212c);display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--accent);overflow:hidden;box-shadow:0 0 20px rgba(139,243,201,0.3);transition:0.4s}
+    .avatar img{width:100%;height:100%;object-fit:cover;border-radius:14px}
+    .avatar:hover{transform:scale(1.05) rotate(1deg)}
+
+    section{margin-top:28px}
+    .two-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+    .skills ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+    .skills li{background:rgba(255,255,255,0.05);padding:8px 10px;border-radius:999px;font-size:13px;color:var(--muted);transition:0.3s}
+    .skills li:hover{background:var(--accent);color:#042028;box-shadow:0 0 10px var(--accent)}
+
+    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+    .proj{padding:14px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.015),rgba(255,255,255,0.02));cursor:pointer;transition:0.4s;
+      opacity:0;animation:fadeUp 1.8s ease forwards;animation-delay:1.2s;}
+    .proj:hover{transform:scale(1.05);box-shadow:0 8px 20px rgba(139,243,201,0.25)}
+    .proj h4{margin:0 0 8px;transition:0.3s}
+    .proj h4:hover{color:#8c14cc;text-shadow:0 0 6px #000000}
+    .proj p{margin:0;color:var(--muted);font-size:13px}
+
+    footer{margin-top:36px;padding:18px 0;text-align:center;color:var(--muted);font-size:14px;animation:fadeIn 3s ease}
+
+    /* Footer icons */
+    .footer-icons {display:flex;justify-content:center;gap:20px;margin-top:20px;}
+    .footer-icons a {font-size:32px;color:var(--accent);transition:0.3s;}
+    .footer-icons a:hover {color:#fff;text-shadow:0 0 2px var(--accent);}
+
+    /* 🔥 Animations */
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes slideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes slideInLeft{from{opacity:0;transform:translateX(-80px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes scaleIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;}
+      .projects{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:640px){
+      nav{display:none}
+      .projects{grid-template-columns:1fr}
+      .avatar{width:120px;height:120px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Star canvas -->
+  <canvas id="stars"></canvas>
+
+  <div class="container">
+    <header>
+      <div class="logo">Cheedella Sai Nikhil</div>
+      <nav>
+        <a class="nav1" href="#about">About</a>
+        <a class="nav1" href="#projects">Projects</a>
+        <a class="nav1" href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- 🔥 Hero with animated name -->
+      <section class="hero">
+        <div class="intro">
+          <h1>Hi — I’m <strong>Cheedella Sai Nikhil</strong></h1>
+          <p>I'm a Btech CSE student with a keen interest in Cyber Security, Robotics and IoT projects.</p>
+          <a class="cta" href="#projects">View Projects</a>
+
+          <div style="margin-top:18px" class="card">
+            <div class="two-cols">
+              <div>
+                <strong>Job-ready skills</strong>
+                <p class="quick">Data structures, Algorithms, Web Designing, IoT basics</p>
+              </div>
+              <div>
+                <strong>Looking for</strong>
+                <p class="quick">Internships • Freelance • Collaborations</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card profile">
+          <div class="avatar"><img src="images/pic.jpg" alt="SN"></div>
+          <div><strong>Cheedella Sai Nikhil</strong></div>
+          <div class="quick">B.Tech • Developer • Problem solver</div>
+          <div style="margin-top:12px;font-size:13px;color:var(--muted)">Email: cheedallasainikhil@gmail.com</div>
+          <div class="contact" ><a href="#contact">Contact me</a></div>
+        </aside>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="card" style="opacity:0;animation:fadeUp 1.8s ease forwards;animation-delay:1s;">
+        <h3>About Me</h3>
+        <p style="color:var(--muted)">I'm Cheedella Sai Nikhil - a BTech CSE student passionate about Cyber Security and Robotics. My skills include C and basic Python, HTML and CSS, IoT, and I've applied them in projects and internships. I believe in continuous learning to bring both creativity and efficiency to my work. Consistency is one of my biggest strengths. Apart from this, I'm an active member of RAIoT, Entrepreneurship cell and Avasa Foundation where I've gained experience in social services, event management and IoT projects. Outside of work, I love doing art.</p>
+
+
+        <div style="margin-top:16px" class="skills">
+          <h4>Skills</h4>
+          <ul>
+            <li>C</li><li>C++</li><li>HTML</li><li>CSS</li><li>Git</li><li>Arduino/ESP32</li><li>IOT devices</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects">
+        <h3 style="margin-top:18px">Projects</h3>
+        <div class="projects">
+          <div class="proj card" data-title="Line Follower Robot" data-desc="ESP32 based robot using IR sensors & motor driver." data-link="https://github.com/yourname/line-follower">
+            <h4>Line Follower Robot</h4>
+            <p>ESP32 • L289N • IR sensor</p>
+          </div>
+          <div class="proj card" data-title="Covid-19 Dashboard" data-desc="ESP32 project measuring TDS and pH; dashboard and alerts."<a href="https://github.com/Sainikhil-hub/Covid-19-Dashboard/blob/22ffc72bbcb4e72b0eea0a64bfdc243224e6a238/covid19_dashboard.py"></a>
+            <h4>Covid-19 Dashboard</h4>
+            <p>Python • Streamlit • Data analysis </p>
+            
+          </div>
+          <div class="proj card" data-title="Portfolio Website" data-desc="This very portfolio — single-file HTML/CSS with responsive layout." data-link="https://github.com/yourname/portfolio">
+            <h4>Portfolio Website</h4>
+            <p>HTML • CSS • JavaScript — responsive single-page site.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="card" style="opacity:0;animation:fadeUp 1.8s ease forwards;animation-delay:1.4s;">
+        <h3>Contact</h3>
+        <p style="color:var(--muted)">Interested in working together? Email me or connect on GitHub/LinkedIn.</p>
+        <p>
+          <strong>Email:</strong> <a href="mailto:cheedallasainikhil@gmail.com">cheedallasainikhil@gmail.com</a><br>
+          <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/cheedella-sai-nikhil-b826b4326/">cheedella sainikhil</a><br>
+          <strong>GitHub:</strong> <a href="https://github.com/sainikhil-hub">sainikhil-hub</a>
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-icons">
+        <a href="https://www.linkedin.com/in/cheedella-sai-nikhil-b826b4326/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/sainikhil-hub" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="mailto:cheedallasainikhil@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+      Sai Nikhil — Built with ❤️ • <a href="#">Download Resume</a>
+    </footer>
+  </div>
+
+  <!-- Modal (unchanged) -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="box">
+      <header>
+        <div>
+          <strong id="m-title"></strong>
+          <div id="m-desc" style="color:var(--muted);font-size:13px;margin-top:6px"></div>
+        </div>
+        <div><a id="m-link" href="#" target="_blank">Open on GitHub</a> • <button id="m-close" aria-label="Close">Close</button></div>
+      </header>
+      <div id="m-body"></div>
+    </div>
+  </div>
+
+  <script>
+    // (Modal + stars logic stays same as your code)
+    const modal = document.getElementById('modal');
+    const mTitle = document.getElementById('m-title');
+    const mDesc = document.getElementById('m-desc');
+    const mLink = document.getElementById('m-link');
+    const mBody = document.getElementById('m-body');
+    const closeBtn = document.getElementById('m-close');
+
+    document.querySelectorAll('.proj').forEach(card => {
+      card.addEventListener('click', () => openModal(card));
+      card.addEventListener('keydown', (e) => { if(e.key === 'Enter') openModal(card); });
+    });
+
+    function openModal(card){
+      mTitle.textContent = card.dataset.title;
+      mDesc.textContent = card.dataset.desc;
+      mLink.href = card.dataset.link || '#';
+      mBody.innerHTML = '<p style="color:var(--muted);margin-top:12px">Add screenshots or a short demo here. Or link to a live demo.</p>';
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+    }
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+    function closeModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); }
+
+    // Starry background
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+
+    for(let i=0;i<120;i++){
+      stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5+0.5,d:Math.random()*0.5+0.2});
+    }
+
+    function drawStars(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle="white"; ctx.beginPath();
+      stars.forEach(s=>{ ctx.moveTo(s.x,s.y); ctx.arc(s.x,s.y,s.r,0,Math.PI*2,true); });
+      ctx.fill(); updateStars();
+    }
+    function updateStars(){ stars.forEach(s=>{ s.y+=s.d; if(s.y>canvas.height){ s.y=0; s.x=Math.random()*canvas.width; } }); }
+    function animate(){ drawStars(); requestAnimationFrame(animate);} animate();
+  </script>
+</body>
+</html>
