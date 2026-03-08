@@ -126,6 +126,19 @@
       text-decoration: none;
     }
 
+    .menu-btn {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--accent);
+      transition: 0.3s;
+    }
+
+    .menu-btn:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+
     .hero {
       display: grid;
       grid-template-columns: 1fr 380px;
@@ -231,7 +244,13 @@
       list-style: none;
       display: flex;
       flex-wrap: wrap;
-      gap: 8px
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .skills h4 {
+      margin-bottom: 12px;
+      color: var(--accent);
     }
 
     .skills li {
@@ -386,11 +405,38 @@
       }
     }
 
-    @media (max-width:640px) {
-      nav {
-        display: none
+    @media (max-width:768px) {
+      .menu-btn {
+        display: block;
       }
 
+      nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(15, 23, 36, 0.95);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        display: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      nav.show {
+        display: flex;
+        animation: slideDown 0.3s ease;
+      }
+
+      nav a {
+        margin: 15px 0;
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width:640px) {
       .projects {
         grid-template-columns: 1fr
       }
@@ -410,8 +456,12 @@
   <header>
     <div class="header-inner">
       <div class="logo">Cheedella Sai Nikhil</div>
-      <nav>
+      <div class="menu-btn" id="menuBtn">
+        <i class="fas fa-bars"></i>
+      </div>
+      <nav id="navMenu">
         <a class="nav1" href="#about">About</a>
+        <a class="nav1" href="#experience">Experience</a>
         <a class="nav1" href="projects.html">Projects</a>
         <a class="nav1" href="certifications.html">Certifications</a>
         <a class="nav1" href="#contact">Contact</a>
@@ -490,6 +540,43 @@
         </div>
       </section>
 
+      <!-- Experience -->
+      <section id="experience" class="card" style="opacity:0;animation:fadeUp 1.8s ease forwards;animation-delay:1.2s;">
+        <h3>Experience</h3>
+        <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+          <div style="flex: 1; min-width: 280px; max-width: 400px;">
+            <a href="https://oasisinfobyte.com/validation/validated.html" target="_blank"
+              style="display: block; overflow: hidden; border-radius: 8px;">
+              <img src="images/oibsip_certificate.jpg" alt="Oasis Infobyte Internship Certificate"
+                style="width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(2, 6, 23, 0.8); transition: transform 0.3s; cursor: pointer;"
+                onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+            </a>
+          </div>
+          <div style="flex: 2; min-width: 300px;">
+            <h4 style="color: var(--accent); font-size: 18px; margin-bottom: 6px;">Security Analyst Intern</h4>
+            <p style="font-weight: 600; margin-bottom: 12px;">Oasis Infobyte <span
+                style="color: var(--muted); font-weight: normal; margin-left: 8px; font-size: 14px;">(Dec 2025 - Jan
+                2026)</span></p>
+            <p style="color:var(--muted); font-size: 14.5px; line-height: 1.6; margin-bottom: 12px;">
+              Completed a 1-month AICTE OIB-SIP Cyber Security Internship focusing on Network Security, Web Application
+              Security, System Protection, Traffic Analysis, and Security Awareness.
+            </p>
+            <ul
+              style="color:var(--muted); font-size: 13.5px; margin-left: 20px; line-height: 1.6; list-style-type: square;">
+              <li>Performed advanced network scanning and reconnaissance using <strong>Nmap</strong>.</li>
+              <li>Configured and managed firewall rules on Linux using <strong>UFW</strong> for robust access control.
+              </li>
+              <li>Practiced and analyzed web vulnerabilities like SQL Injections using <strong>DVWA</strong>.</li>
+              <li>Captured and analyzed HTTP network traffic and packet-level data flow using
+                <strong>Wireshark</strong>.
+              </li>
+              <li>Researched and documented comprehensive reports on network threats and social engineering techniques.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <!-- Projects & Certifications moved to projects.html -->
 
       <!-- Contact -->
@@ -535,6 +622,20 @@
       stars.forEach(s => { ctx.moveTo(s.x, s.y); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2, true); });
       ctx.fill(); updateStars();
     }
+    // Hamburger menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const navMenu = document.getElementById('navMenu');
+    menuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav1').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('show');
+      });
+    });
+
     function updateStars() { stars.forEach(s => { s.y += s.d; if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; } }); }
     function animate() { drawStars(); requestAnimationFrame(animate); } animate();
   </script>

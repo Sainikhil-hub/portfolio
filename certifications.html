@@ -126,6 +126,19 @@
       text-decoration: none;
     }
 
+    .menu-btn {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--accent);
+      transition: 0.3s;
+    }
+
+    .menu-btn:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+
     .hero {
       display: grid;
       grid-template-columns: 1fr 380px;
@@ -386,11 +399,38 @@
       }
     }
 
-    @media (max-width:640px) {
-      nav {
-        display: none
+    @media (max-width:768px) {
+      .menu-btn {
+        display: block;
       }
 
+      nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(15, 23, 36, 0.95);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        display: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      nav.show {
+        display: flex;
+        animation: slideDown 0.3s ease;
+      }
+
+      nav a {
+        margin: 15px 0;
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width:640px) {
       .projects {
         grid-template-columns: 1fr
       }
@@ -410,9 +450,13 @@
   <header>
     <div class="header-inner">
       <div class="logo">Cheedella Sai Nikhil</div>
-      <nav>
+      <div class="menu-btn" id="menuBtn">
+        <i class="fas fa-bars"></i>
+      </div>
+      <nav id="navMenu">
         <a class="nav1" href="index.html">Home</a>
         <a class="nav1" href="index.html#about">About</a>
+        <a class="nav1" href="index.html#experience">Experience</a>
         <a class="nav1" href="projects.html">Projects</a>
         <a class="nav1" href="certifications.html">Certifications</a>
         <a class="nav1" href="index.html#contact">Contact</a>
@@ -475,6 +519,20 @@
       });
       card.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && card.dataset.link) window.open(card.dataset.link, '_blank');
+      });
+    });
+
+    // Hamburger menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const navMenu = document.getElementById('navMenu');
+    menuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav1').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('show');
       });
     });
 

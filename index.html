@@ -244,7 +244,13 @@
       list-style: none;
       display: flex;
       flex-wrap: wrap;
-      gap: 8px
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .skills h4 {
+      margin-bottom: 12px;
+      color: var(--accent);
     }
 
     .skills li {
@@ -454,60 +460,136 @@
         <i class="fas fa-bars"></i>
       </div>
       <nav id="navMenu">
-        <a class="nav1" href="index.html">Home</a>
-        <a class="nav1" href="index.html#about">About</a>
-        <a class="nav1" href="index.html#experience">Experience</a>
+        <a class="nav1" href="#about">About</a>
+        <a class="nav1" href="#experience">Experience</a>
         <a class="nav1" href="projects.html">Projects</a>
         <a class="nav1" href="certifications.html">Certifications</a>
-        <a class="nav1" href="index.html#contact">Contact</a>
+        <a class="nav1" href="#contact">Contact</a>
       </nav>
     </div>
   </header>
 
   <div class="container">
     <main>
-      <!-- Projects and Certifications Only -->
+      <!-- 🔥 Hero with animated name -->
+      <section class="hero">
+        <div class="intro">
+          <h1>Hi — I’m <strong>Cheedella Sai Nikhil</strong></h1>
+          <p>I'm a Btech CSE student with a keen interest in Cyber Security, Robotics and IoT projects.</p>
+          <a class="cta" href="projects.html">View Projects</a>
 
-      <!-- Projects -->
-      <section id="projects">
-        <h3 style="margin-top:18px">Projects</h3>
-        <div class="projects">
-          <div class="proj card" data-title="MedPulse Hospital Dashboard"
-            data-desc="Telangana Hospital Resource Portal."
-            data-link="https://github.com/Sainikhil-hub/medpulse-hospital-dashboard">
-            <h4>MedPulse Hospital Dashboard</h4>
-            <p>JavaScript • HTML • CSS</p>
-            <p style="margin-top: 8px;"><a href="https://github.com/Sainikhil-hub/medpulse-hospital-dashboard"
-                target="_blank"><i class="fab fa-github"></i> github link</a></p>
+          <div style="margin-top:18px" class="card">
+            <div class="two-cols">
+              <div>
+                <strong>Job-ready skills</strong>
+                <p class="quick">Data structures, Algorithms, Cyber Security, IoT basics</p>
+              </div>
+              <div>
+                <strong>Looking for</strong>
+                <p class="quick">Internships • Freelance • Collaborations</p>
+              </div>
+            </div>
           </div>
-          <div class="proj card" data-title="Line Follower Robot"
-            data-desc="ESP32 based robot using IR sensors & motor driver."
-            data-link="https://github.com/yourname/line-follower">
-            <h4>Line Follower Robot</h4>
-            <p>ESP32 • L289N • IR sensor</p>
+        </div>
+
+        <aside class="card profile">
+          <div class="avatar"><img src="images/pic.jpg" alt="SN"></div>
+          <div><strong>Cheedella Sai Nikhil</strong></div>
+          <div class="quick">B.Tech • Developer • Problem solver</div>
+          <div style="margin-top:12px;font-size:13px;color:var(--muted)">Email: cheedallasainikhil@gmail.com</div>
+          <div class="contact"><a href="#contact">Contact me</a></div>
+        </aside>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="card" style="opacity:0;animation:fadeUp 1.8s ease forwards;animation-delay:1s;">
+        <h3>About Me</h3>
+        <p style="color:var(--muted)">I'm Cheedella Sai Nikhil - a BTech CSE student passionate about Cyber Security and
+          Robotics. My skills include C and basic Python, HTML and CSS, IoT, and I've applied them in projects and
+          internships. I believe in continuous learning to bring both creativity and efficiency to my work. Consistency
+          is one of my biggest strengths. Apart from this, I'm an active member of RAIoT, Entrepreneurship cell and
+          Avasa Foundation where I've gained experience in social services, event management and IoT projects. Outside
+          of work, I love doing art.</p>
+
+
+        <div style="margin-top:16px" class="skills">
+          <h4>Technical Skills</h4>
+          <ul>
+            <li>C</li>
+            <li>C++</li>
+            <li>Python</li>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>Git</li>
+            <li>Linux</li>
+            <li>Nmap</li>
+            <li>Wireshark</li>
+            <li>Cybersecurity</li>
+            <li>Arduino/ESP32</li>
+            <li>IOT devices</li>
+          </ul>
+        </div>
+        <div style="margin-top:16px" class="skills">
+          <h4>Soft Skills</h4>
+          <ul>
+            <li>Team work</li>
+            <li>Consistency</li>
+            <li>Adaptability</li>
+            <li>Creative thinking</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section id="experience" class="card" style="opacity:0;animation:fadeUp 1.8s ease forwards;animation-delay:1.2s;">
+        <h3>Experience</h3>
+        <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+          <div style="flex: 1; min-width: 280px; max-width: 400px;">
+            <a href="https://oasisinfobyte.com/validation/validated.html" target="_blank"
+              style="display: block; overflow: hidden; border-radius: 8px;">
+              <img src="images/oibsip_certificate.jpg" alt="Oasis Infobyte Internship Certificate"
+                style="width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(2, 6, 23, 0.8); transition: transform 0.3s; cursor: pointer;"
+                onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+            </a>
           </div>
-          <div class="proj card" data-title="Covid-19 Dashboard"
-            data-desc="ESP32 project measuring TDS and pH; dashboard and alerts."
-            data-link="https://github.com/Sainikhil-hub/Covid-19-Dashboard">
-            <h4>Covid-19 Dashboard</h4>
-            <p>Python • Streamlit • Data analysis </p>
-            <p style="margin-top: 8px;"><a href="https://github.com/Sainikhil-hub/Covid-19-Dashboard" target="_blank"><i
-                  class="fab fa-github"></i> github link</a></p>
-          </div>
-          <div class="proj card" data-title="Portfolio Website"
-            data-desc="This very portfolio — single-file HTML/CSS with responsive layout."
-            data-link="https://github.com/Sainikhil-hub/portfolio">
-            <h4>Portfolio Website</h4>
-            <p>HTML • CSS • JavaScript — responsive single-page site.</p>
-            <p style="margin-top: 8px;"><a href="https://github.com/Sainikhil-hub/portfolio" target="_blank"><i
-                  class="fab fa-github"></i> github link</a></p>
+          <div style="flex: 2; min-width: 300px;">
+            <h4 style="color: var(--accent); font-size: 18px; margin-bottom: 6px;">Security Analyst Intern</h4>
+            <p style="font-weight: 600; margin-bottom: 12px;">Oasis Infobyte <span
+                style="color: var(--muted); font-weight: normal; margin-left: 8px; font-size: 14px;">(Dec 2025 - Jan
+                2026)</span></p>
+            <p style="color:var(--muted); font-size: 14.5px; line-height: 1.6; margin-bottom: 12px;">
+              Completed a 1-month AICTE OIB-SIP Cyber Security Internship focusing on Network Security, Web Application
+              Security, System Protection, Traffic Analysis, and Security Awareness.
+            </p>
+            <ul
+              style="color:var(--muted); font-size: 13.5px; margin-left: 20px; line-height: 1.6; list-style-type: square;">
+              <li>Performed advanced network scanning and reconnaissance using <strong>Nmap</strong>.</li>
+              <li>Configured and managed firewall rules on Linux using <strong>UFW</strong> for robust access control.
+              </li>
+              <li>Practiced and analyzed web vulnerabilities like SQL Injections using <strong>DVWA</strong>.</li>
+              <li>Captured and analyzed HTTP network traffic and packet-level data flow using
+                <strong>Wireshark</strong>.
+              </li>
+              <li>Researched and documented comprehensive reports on network threats and social engineering techniques.
+              </li>
+            </ul>
           </div>
         </div>
       </section>
 
-      <!-- Certifications section removed -->
+      <!-- Projects & Certifications moved to projects.html -->
 
-      <!-- End specific sections -->
+      <!-- Contact -->
+      <section id="contact" class="card" style="opacity:0;animation:fadeUp 1.8s ease forwards;animation-delay:1.4s;">
+        <h3>Contact</h3>
+        <p style="color:var(--muted)">Interested in working together? Email me or connect on GitHub/LinkedIn.</p>
+        <p>
+          <strong>Email:</strong> <a href="mailto:cheedallasainikhil@gmail.com">cheedallasainikhil@gmail.com</a><br>
+          <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/cheedella-sai-nikhil-b826b4326/">cheedella
+            sainikhil</a><br>
+          <strong>GitHub:</strong> <a href="https://github.com/sainikhil-hub">sainikhil-hub</a>
+        </p>
+      </section>
     </main>
 
     <footer>
@@ -522,29 +604,6 @@
   </div>
 
   <script>
-    document.querySelectorAll('.proj').forEach(card => {
-      card.addEventListener('click', () => {
-        if (card.dataset.link) window.open(card.dataset.link, '_blank');
-      });
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && card.dataset.link) window.open(card.dataset.link, '_blank');
-      });
-    });
-
-    // Hamburger menu toggle
-    const menuBtn = document.getElementById('menuBtn');
-    const navMenu = document.getElementById('navMenu');
-    menuBtn.addEventListener('click', () => {
-      navMenu.classList.toggle('show');
-    });
-
-    // Close menu when a link is clicked
-    document.querySelectorAll('.nav1').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('show');
-      });
-    });
-
     // Starry background
     const canvas = document.getElementById('stars');
     const ctx = canvas.getContext('2d');
@@ -563,6 +622,20 @@
       stars.forEach(s => { ctx.moveTo(s.x, s.y); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2, true); });
       ctx.fill(); updateStars();
     }
+    // Hamburger menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const navMenu = document.getElementById('navMenu');
+    menuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav1').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('show');
+      });
+    });
+
     function updateStars() { stars.forEach(s => { s.y += s.d; if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; } }); }
     function animate() { drawStars(); requestAnimationFrame(animate); } animate();
   </script>
