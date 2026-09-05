@@ -7,17 +7,38 @@
   <title>Exposure & Tech Fests — Sai Nikhil</title>
   <meta name="description" content="Exposure, Tech Fests, and Event Participation of Cheedella Sai Nikhil">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 
   <style>
     :root {
       --bg: #0f1724;
       --card: #0b1220;
+      --text: #fdfdfe;
       --muted: #94a3b8;
       --accent: #8bf3c9;
+      --accent-glow: rgba(139, 243, 201, 0.35);
       --glass: rgba(255, 255, 255, 0.03);
+      --header-bg: rgba(15, 23, 36, 0.85);
+      --bg-grad: linear-gradient(180deg, #071021 0%, var(--bg) 100%);
+      --caption-bg: rgba(11, 18, 32, 0.95);
+      --gallery-bg: #121c2d;
       --maxw: 1100px;
       --radius: 12px;
       --ff: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0284c7;
+      --accent-glow: rgba(2, 132, 199, 0.25);
+      --glass: rgba(0, 0, 0, 0.03);
+      --header-bg: rgba(244, 246, 249, 0.88);
+      --bg-grad: linear-gradient(180deg, #e8eef7 0%, var(--bg) 100%);
+      --caption-bg: rgba(255, 255, 255, 0.95);
+      --gallery-bg: #e2e8f0;
     }
 
     * {
@@ -26,14 +47,20 @@
       padding: 0;
     }
 
+    html {
+      height: 100%;
+      scroll-behavior: smooth;
+      background: var(--bg-grad);
+    }
+
     html,
     body {
-      height: 100%;
+      min-height: 100%;
       font-family: var(--ff);
-      background: linear-gradient(180deg, #071021 0%, var(--bg) 100%);
-      color: #fdfdfe;
+      color: var(--text);
       overflow-x: hidden;
       position: relative;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     /* Starry background */
@@ -47,13 +74,21 @@
       background: transparent;
     }
 
+    /* Full-page particle network layer (fixed behind all content) */
+    #net-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: transparent;
+    }
+
     a {
       text-decoration: none;
       color: var(--accent);
     }
 
     a:hover {
-      color: #fff;
+      color: var(--text);
     }
 
     body::before {
@@ -81,11 +116,12 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(15, 23, 36, 0.85);
+      background: var(--header-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       animation: slideDown 1.5s ease;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background-color 0.3s ease;
     }
 
     .header-inner {
@@ -118,12 +154,33 @@
     }
 
     .nav1:hover {
-      color: white;
+      color: var(--text);
       text-shadow: 0 0 6px var(--accent);
     }
 
     .nav1 {
       text-decoration: none;
+    }
+
+    .theme-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 18px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-btn:hover {
+      background: var(--accent);
+      color: #042028;
+      box-shadow: 0 0 10px var(--accent-glow);
     }
 
     .menu-btn {
@@ -135,16 +192,17 @@
     }
 
     .menu-btn:hover {
-      color: #fff;
+      color: var(--text);
       transform: scale(1.1);
     }
 
     .card {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), var(--glass));
+      background: var(--card);
       padding: 24px;
       border-radius: var(--radius);
-      box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
-      transition: 0.4s;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
     section {
@@ -153,7 +211,7 @@
 
     .section-title {
       font-size: 24px;
-      color: #fff;
+      color: var(--text);
       margin-bottom: 8px;
     }
 
@@ -161,6 +219,160 @@
       color: var(--muted);
       font-size: 15px;
       margin-bottom: 24px;
+    }
+
+    /* ── Filter tab bar ─────────────────────────── */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--muted);
+      padding: 8px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13.5px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      color: #042028;
+      border-color: var(--accent);
+      font-weight: 600;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* ── Timeline ───────────────────────────────── */
+    .timeline {
+      position: relative;
+      margin-top: 26px;
+      padding-left: 40px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 11px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), rgba(56, 189, 248, 0.25));
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 36px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-item.filter-hide {
+      display: none;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -35px;
+      top: 5px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-glow), 0 0 12px var(--accent-glow);
+    }
+
+    .timeline-date {
+      display: inline-block;
+      background: rgba(139, 243, 201, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(139, 243, 201, 0.25);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      margin-bottom: 12px;
+    }
+
+    .event-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .event-head h3 {
+      color: var(--accent);
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .event-head .event-role {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .event-head .event-meta {
+      color: var(--muted);
+      font-weight: normal;
+      margin-left: 8px;
+      font-size: 14px;
+    }
+
+    .event-desc {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 4px;
+    }
+
+    /* ── "What I learned" callout ───────────────── */
+    .learned-callout {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: rgba(139, 243, 201, 0.08);
+      border: 1px solid rgba(139, 243, 201, 0.25);
+      border-left: 4px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .learned-callout i {
+      color: var(--accent);
+      margin-top: 3px;
+    }
+
+    .learned-callout strong {
+      color: var(--accent);
+    }
+
+    .gallery-title {
+      margin-top: 24px;
+      color: var(--text);
+      font-size: 17px;
+      margin-bottom: 14px;
     }
 
     .gallery-grid {
@@ -174,15 +386,15 @@
       position: relative;
       border-radius: 10px;
       overflow: hidden;
-      background: #121c2d;
+      background: var(--gallery-bg);
       border: 1px solid rgba(255, 255, 255, 0.05);
-      cursor: pointer;
-      transition: all 0.3s ease;
+      cursor: zoom-in;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
     .gallery-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(139, 243, 201, 0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px var(--accent-glow);
       border-color: var(--accent);
     }
 
@@ -195,12 +407,12 @@
     }
 
     .gallery-item:hover img {
-      transform: scale(1.05);
+      transform: scale(1.06);
     }
 
     .gallery-caption {
       padding: 12px 14px;
-      background: rgba(11, 18, 32, 0.95);
+      background: var(--caption-bg);
       font-size: 13.5px;
       color: var(--muted);
       display: flex;
@@ -244,12 +456,11 @@
     .cta-btn:hover {
       background-color: #661475;
       color: white;
-      box-shadow: 0 0 12px var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
     }
 
-    /* Modal Lightbox */
+    /* ── Modal Lightbox (fade + scale) ──────────── */
     .modal {
-      display: none;
       position: fixed;
       z-index: 2000;
       top: 0;
@@ -261,18 +472,43 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
+      display: flex;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.18s ease, visibility 0.18s ease;
     }
 
     .modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-figure {
+      max-width: 90%;
+      max-height: 85vh;
       display: flex;
-      animation: fadeIn 0.3s ease;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
     }
 
     .modal-img {
-      max-width: 90%;
-      max-height: 85vh;
+      max-width: 100%;
+      max-height: 78vh;
       border-radius: 10px;
       box-shadow: 0 0 30px rgba(139, 243, 201, 0.4);
+      transform: scale(0.92);
+      transition: transform 0.18s ease;
+    }
+
+    .modal.show .modal-img {
+      transform: scale(1);
+    }
+
+    .modal-caption {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
     }
 
     .modal-close {
@@ -313,7 +549,7 @@
     }
 
     .footer-icons a:hover {
-      color: #fff;
+      color: var(--text);
       text-shadow: 0 0 2px var(--accent);
     }
 
@@ -321,6 +557,7 @@
       from {
         opacity: 0;
       }
+
       to {
         opacity: 1;
       }
@@ -331,9 +568,24 @@
         opacity: 0;
         transform: translateY(-20px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .timeline {
+        padding-left: 28px;
+      }
+
+      .timeline::before {
+        left: 9px;
+      }
+
+      .timeline-dot {
+        left: -25px;
       }
     }
 
@@ -347,7 +599,7 @@
         top: 100%;
         left: 0;
         width: 100%;
-        background: rgba(15, 23, 36, 0.95);
+        background: var(--header-bg);
         backdrop-filter: blur(16px);
         flex-direction: column;
         align-items: center;
@@ -365,19 +617,31 @@
         margin: 15px 0;
         font-size: 16px;
       }
+
+      .theme-btn {
+        margin: 10px 0 0 0;
+      }
     }
   </style>
 </head>
 
 <body>
+  <!-- Full-page particle network background -->
+  <canvas id="net-canvas"></canvas>
+
   <!-- Star canvas -->
   <canvas id="stars"></canvas>
 
   <header>
     <div class="header-inner">
       <div class="logo">Cheedella Sai Nikhil</div>
-      <div class="menu-btn" id="menuBtn">
-        <i class="fas fa-bars"></i>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button id="themeToggle" class="theme-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <div class="menu-btn" id="menuBtn">
+          <i class="fas fa-bars"></i>
+        </div>
       </div>
       <nav id="navMenu">
         <a class="nav1" href="index.html">Home</a>
@@ -395,287 +659,446 @@
     <main>
       <section>
         <h2 class="section-title">Exposure & Tech Fests</h2>
-        <p class="subtitle">Highlights from national tech festivals, hackathons, and robotics competitions.</p>
+        <p class="subtitle">Highlights from national tech festivals, hackathons, and robotics competitions — in
+          chronological order.</p>
 
-        <!-- IIT Jodhpur Prometeo '25 Showcase Card -->
-        <div class="card">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
-            <div>
-              <h3 style="color: var(--accent); font-size: 22px; margin-bottom: 6px;">IIT Jodhpur Tech Fest — Prometeo '25</h3>
-              <p style="font-weight: 600; color: #fff;">Participant & Competitor <span style="color: var(--muted); font-weight: normal; margin-left: 8px; font-size: 14px;">• IIT Jodhpur, Rajasthan (Feb 2025)</span></p>
-            </div>
-            <a href="https://www.linkedin.com/posts/cheedella-sai-nikhil-b826b4326_iitjodhpur-prometeo25-techfest-activity-7292179827401326592-NobB" target="_blank" class="cta-btn">
-              <i class="fab fa-linkedin"></i> View Post on LinkedIn
-            </a>
-          </div>
-
-          <div class="tags">
-            <span class="tag">IIT Jodhpur</span>
-            <span class="tag">Prometeo '25</span>
-            <span class="tag">Line Follower Robotics</span>
-            <span class="tag">Quantopia</span>
-            <span class="tag">RAIoT Labs</span>
-            <span class="tag">Tech Fest Exposure</span>
-          </div>
-
-          <p style="color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 16px;">
-            Had an incredible experience participating in <strong>Prometeo '25</strong>, the annual national technical festival of <strong>IIT Jodhpur</strong>. Represented <strong>RAIoT Labs (Amity University Rajasthan)</strong> in high-stakes competitions including <strong>Line Follower Robotics</strong> and <strong>Quantopia (Quant Finance)</strong>. The event provided hands-on experience in autonomous navigation testing, quantitative logic, and networking with tech enthusiasts and innovators from across the country.
-          </p>
-
-          <h4 style="margin-top: 24px; color: #fff; font-size: 17px; margin-bottom: 14px;">📸 Event Photo Gallery (Click to expand)</h4>
-          <div class="gallery-grid">
-            <div class="gallery-item" onclick="openModal('images/prometeo-1.jpg')">
-              <img src="images/prometeo-1.jpg" alt="Line Follower Competition">
-              <div class="gallery-caption">
-                <span>Line Follower Competition</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/prometeo-2.jpg')">
-              <img src="images/prometeo-2.jpg" alt="Quiz Competition Certificate">
-              <div class="gallery-caption">
-                <span>Quiz Competition Certificate</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/prometeo-3.jpg')">
-              <img src="images/prometeo-3.jpg" alt="Team & Campus Experience">
-              <div class="gallery-caption">
-                <span>Team & Campus Experience</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/prometeo-4.jpg')">
-              <img src="images/prometeo-4.jpg" alt="RAIoT Labs at IIT Jodhpur">
-              <div class="gallery-caption">
-                <span>RAIoT Labs at IIT Jodhpur</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/prometeo-5.jpg')">
-              <img src="images/prometeo-5.jpg" alt="Me at IIT Jodhpur">
-              <div class="gallery-caption">
-                <span>Me at IIT Jodhpur</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-          </div>
+        <!-- Filter tabs -->
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="robotics">Robotics</button>
+          <button class="filter-btn" data-filter="hackathons">Hackathons</button>
+          <button class="filter-btn" data-filter="chess">Chess</button>
         </div>
 
-        <!-- IIT Roorkee Cognizance 2025 Showcase Card -->
-        <div class="card" style="margin-top: 28px;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
-            <div>
-              <h3 style="color: var(--accent); font-size: 22px; margin-bottom: 6px;">IIT Roorkee Tech Fest — Cognizance 2025</h3>
-              <p style="font-weight: 600; color: #fff;">Participant & Competitor <span style="color: var(--muted); font-weight: normal; margin-left: 8px; font-size: 14px;">• IIT Roorkee, Uttarakhand</span></p>
-            </div>
-            <a href="https://www.linkedin.com/posts/cheedella-sai-nikhil-b826b4326_iitroorkee-cognizance2025-trailblaze-activity-7324377757621133312-gWmv" target="_blank" class="cta-btn">
-              <i class="fab fa-linkedin"></i> View Post on LinkedIn
-            </a>
-          </div>
+        <div class="timeline">
 
-          <div class="tags">
-            <span class="tag">IIT Roorkee</span>
-            <span class="tag">Cognizance 2025</span>
-            <span class="tag">TrailBlaze (Line Follower)</span>
-            <span class="tag">Grand Master’s Gambit (Chess)</span>
-            <span class="tag">RAIoT Labs</span>
-            <span class="tag">Tech Fest Exposure</span>
-          </div>
+          <!-- MNIT Jaipur SPHINX '24 — Nov 2024 -->
+          <div class="timeline-item" data-categories="robotics" data-aos="fade-up">
+            <span class="timeline-dot"></span>
+            <span class="timeline-date">Nov 2024</span>
+            <div class="card">
+              <div class="event-head">
+                <div>
+                  <h3>MNIT Jaipur Tech Fest — SPHINX '24</h3>
+                  <p class="event-role">Participant • RC Aircraft & Aeromodelling <span class="event-meta">• MNIT
+                      Jaipur, Rajasthan (Nov 2024)</span></p>
+                </div>
+              </div>
 
-          <p style="color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 16px;">
-            Honored and excited to be part of <strong>Cognizance 2025</strong> at <strong>IIT Roorkee</strong> — one of India’s premier technical festivals representing <strong>RAIoT Labs (Amity University Rajasthan)</strong>. Participated in <strong>TrailBlaze (Line Follower Robot Competition)</strong>, testing custom robotics and autonomous navigation algorithms, and <strong>Grand Master’s Gambit (Chess Tournament)</strong>, honing strategic decision-making and problem solving under pressure.
-          </p>
+              <div class="tags">
+                <span class="tag">MNIT Jaipur</span>
+                <span class="tag">SPHINX '24</span>
+                <span class="tag">RC Aircraft</span>
+                <span class="tag">Aeromodelling</span>
+                <span class="tag">RAIoT Club</span>
+                <span class="tag">Tech Fest Exposure</span>
+              </div>
 
-          <h4 style="margin-top: 24px; color: #fff; font-size: 17px; margin-bottom: 14px;">📸 Event Photo Gallery (Click to expand)</h4>
-          <div class="gallery-grid">
-            <div class="gallery-item" onclick="openModal('images/roorkee-1.jpg')">
-              <img src="images/roorkee-1.jpg" alt="IIT Roorkee Cognizance 2025 Photo 1">
-              <div class="gallery-caption">
-                <span>Cognizance 2025 Highlights</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/roorkee-2.jpg')">
-              <img src="images/roorkee-2.jpg" alt="TrailBlaze Line Follower Robot">
-              <div class="gallery-caption">
-                <span>TrailBlaze Robotics Event</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/roorkee-3.jpg')">
-              <img src="images/roorkee-3.jpg" alt="Grand Master’s Gambit Chess">
-              <div class="gallery-caption">
-                <span>Grand Master’s Gambit Chess</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/roorkee-4.jpg')">
-              <img src="images/roorkee-4.jpg" alt="Campus & Event Discussions">
-              <div class="gallery-caption">
-                <span>IIT Roorkee Campus Experience</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/roorkee-5.jpg')">
-              <img src="images/roorkee-5.jpg" alt="RAIoT Labs at IIT Roorkee">
-              <div class="gallery-caption">
-                <span>RAIoT Labs Team</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/roorkee-6.jpg')">
-              <img src="images/roorkee-6.jpg" alt="Cognizance 2025 Experience">
-              <div class="gallery-caption">
-                <span>Event Experience</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+              <p class="event-desc">
+                Represented <strong>RAIoT Club (Amity University Rajasthan)</strong> at <strong>SPHINX '24</strong>,
+                the annual technical festival of <strong>MNIT Jaipur</strong>, in <strong>November 2024</strong>.
+                Built and test-flew <strong>RC aircraft prototypes</strong>, getting hands-on with aeromodelling
+                fundamentals — airframe design, fabrication and flight testing — while exploring the fest and the MNIT
+                Jaipur campus with the team.
+              </p>
 
-        <!-- Google Developers & TFUG AI Bootcamp 2025 Showcase Card -->
-        <div class="card" style="margin-top: 28px;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
-            <div>
-              <h3 style="color: var(--accent); font-size: 22px; margin-bottom: 6px;">AI Bootcamp 2025 — ML, GenAI & Prototype Building</h3>
-              <p style="font-weight: 600; color: #fff;">Attendee & Workshop Participant <span style="color: var(--muted); font-weight: normal; margin-left: 8px; font-size: 14px;">• LNMIIT Jaipur</span></p>
-            </div>
-            <a href="https://www.linkedin.com/posts/cheedella-sai-nikhil-b826b4326_aibootcamp2025-tfugjaipur-gdgjaipur-activity-7391726246533177344-oadG" target="_blank" class="cta-btn">
-              <i class="fab fa-linkedin"></i> View Post on LinkedIn
-            </a>
-          </div>
+              <div class="learned-callout">
+                <i class="fas fa-lightbulb"></i>
+                <div><strong>What I learned:</strong> hands-on aeromodelling — how airframe design, weight balance and
+                  control surfaces decide whether an RC aircraft actually flies — and the confidence of representing my
+                  team at an NIT tech fest.</div>
+              </div>
 
-          <div class="tags">
-            <span class="tag">AI Bootcamp 2025</span>
-            <span class="tag">Google for Developers</span>
-            <span class="tag">TFUG Jaipur</span>
-            <span class="tag">GDG Jaipur</span>
-            <span class="tag">Generative AI</span>
-            <span class="tag">TensorFlow & ML</span>
-          </div>
-
-          <p style="color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 16px;">
-            Attended the hands-on <strong>AI Bootcamp 2025</strong> organized by <strong>Google for Developers</strong>, <strong>TensorFlow User Group (TFUG) Jaipur</strong>, and <strong>GDG Jaipur</strong> at <strong>The LNM Institute of Information Technology (LNMIIT)</strong>. Explored Machine Learning, Generative AI, and prototype building connecting theoretical concepts to real-world AI applications.
-          </p>
-
-          <h4 style="margin-top: 24px; color: #fff; font-size: 17px; margin-bottom: 14px;">📸 Event Photo Gallery (Click to expand)</h4>
-          <div class="gallery-grid">
-            <div class="gallery-item" onclick="openModal('images/bootcamp-1.jpg')">
-              <img src="images/bootcamp-1.jpg" alt="AI Bootcamp 2025 Photo 1">
-              <div class="gallery-caption">
-                <span>AI Bootcamp 2025 Highlights</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/bootcamp-2.jpg')">
-              <img src="images/bootcamp-2.jpg" alt="TFUG & GDG Workshop Session">
-              <div class="gallery-caption">
-                <span>GenAI & ML Workshop</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/bootcamp-3.jpg')">
-              <img src="images/bootcamp-3.jpg" alt="LNMIIT Event Venue">
-              <div class="gallery-caption">
-                <span>Venue at LNMIIT Jaipur</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/bootcamp-4.jpg')">
-              <img src="images/bootcamp-4.jpg" alt="Google Developers Networking">
-              <div class="gallery-caption">
-                <span>Developer Networking</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/bootcamp-5.jpg')">
-              <img src="images/bootcamp-5.jpg" alt="Excited Goodies">
-              <div class="gallery-caption">
-                <span>Excited Goodies</span>
-                <i class="fas fa-search-plus"></i>
+              <h4 class="gallery-title">📸 Event Photo Gallery (Click to expand)</h4>
+              <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal('images/sphiinx-1.jpg', 'With My RC Aircraft at SPHINX ‘24')" data-aos="fade-up">
+                  <img src="images/sphiinx-1.jpg" alt="With My RC Aircraft at SPHINX '24">
+                  <div class="gallery-caption">
+                    <span>With My RC Aircraft at SPHINX ‘24</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/sphiinx-2.jpg', 'At Prabha Bhawan, MNIT Jaipur')" data-aos="fade-up" data-aos-delay="100">
+                  <img src="images/sphiinx-2.jpg" alt="At Prabha Bhawan, MNIT Jaipur">
+                  <div class="gallery-caption">
+                    <span>At Prabha Bhawan, MNIT Jaipur</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/sphiinx-3.jpg', 'RAIoT Club with Our RC Planes')" data-aos="fade-up" data-aos-delay="200">
+                  <img src="images/sphiinx-3.jpg" alt="RAIoT Club with Our RC Planes">
+                  <div class="gallery-caption">
+                    <span>RAIoT Club with Our RC Planes</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/sphiinx-4.jpg', 'Team at the SPHINX ‘24 Sign')" data-aos="fade-up" data-aos-delay="300">
+                  <img src="images/sphiinx-4.jpg" alt="Team at the SPHINX '24 Sign">
+                  <div class="gallery-caption">
+                    <span>Team at the SPHINX ‘24 Sign</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/sphiinx-5.jpg', 'RAIoT Club at the SPHINX ‘24 Entrance')" data-aos="fade-up" data-aos-delay="400">
+                  <img src="images/sphiinx-5.jpg" alt="RAIoT Club at the SPHINX '24 Entrance">
+                  <div class="gallery-caption">
+                    <span>RAIoT Club at the SPHINX ‘24 Entrance</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- RAIoT at MNIT Jaipur 2025 Showcase Card -->
-        <div class="card" style="margin-top: 28px;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
-            <div>
-              <h3 style="color: var(--accent); font-size: 22px; margin-bottom: 6px;">MNIT Jaipur Tech Fest & 24-Hour Hackathon (2025)</h3>
-              <p style="font-weight: 600; color: #fff;">3rd Position Winner • Hackathon & AeroQuest <span style="color: var(--muted); font-weight: normal; margin-left: 8px; font-size: 14px;">• MNIT Jaipur (2025)</span></p>
+          <!-- IIT Jodhpur Prometeo '25 — Feb 2025 -->
+          <div class="timeline-item" data-categories="robotics" data-aos="fade-up">
+            <span class="timeline-dot"></span>
+            <span class="timeline-date">Feb 2025</span>
+            <div class="card">
+              <div class="event-head">
+                <div>
+                  <h3>IIT Jodhpur Tech Fest — Prometeo '25</h3>
+                  <p class="event-role">Participant &amp; Competitor <span class="event-meta">• IIT Jodhpur, Rajasthan
+                      (Feb 2025)</span></p>
+                </div>
+                <a href="https://www.linkedin.com/posts/cheedella-sai-nikhil-b826b4326_iitjodhpur-prometeo25-techfest-activity-7292179827401326592-NobB"
+                  target="_blank" class="cta-btn">
+                  <i class="fab fa-linkedin"></i> View Post on LinkedIn
+                </a>
+              </div>
+
+              <div class="tags">
+                <span class="tag">IIT Jodhpur</span>
+                <span class="tag">Prometeo '25</span>
+                <span class="tag">Line Follower Robotics</span>
+                <span class="tag">Quantopia</span>
+                <span class="tag">RAIoT Labs</span>
+                <span class="tag">Tech Fest Exposure</span>
+              </div>
+
+              <p class="event-desc">
+                Had an incredible experience participating in <strong>Prometeo '25</strong>, the annual national
+                technical festival of <strong>IIT Jodhpur</strong>. Represented <strong>RAIoT Labs (Amity University
+                Rajasthan)</strong> in high-stakes competitions including <strong>Line Follower Robotics</strong> and
+                <strong>Quantopia (Quant Finance)</strong>. The event provided hands-on experience in autonomous
+                navigation testing, quantitative logic, and networking with tech enthusiasts and innovators from across
+                the country.
+              </p>
+
+              <div class="learned-callout">
+                <i class="fas fa-lightbulb"></i>
+                <div><strong>What I learned:</strong> tuning sensor calibration and motor speed side-by-side with teams
+                  from across India taught me that small hardware details decide close races — and how to stay calm
+                  under competition pressure.</div>
+              </div>
+
+              <h4 class="gallery-title">📸 Event Photo Gallery (Click to expand)</h4>
+              <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal('images/prometeo-1.jpg', 'Line Follower Competition')" data-aos="fade-up">
+                  <img src="images/prometeo-1.jpg" alt="Line Follower Competition">
+                  <div class="gallery-caption">
+                    <span>Line Follower Competition</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/prometeo-2.jpg', 'Quiz Competition Certificate')" data-aos="fade-up" data-aos-delay="100">
+                  <img src="images/prometeo-2.jpg" alt="Quiz Competition Certificate">
+                  <div class="gallery-caption">
+                    <span>Quiz Competition Certificate</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/prometeo-3.jpg', 'Team & Campus Experience')" data-aos="fade-up" data-aos-delay="200">
+                  <img src="images/prometeo-3.jpg" alt="Team & Campus Experience">
+                  <div class="gallery-caption">
+                    <span>Team & Campus Experience</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/prometeo-4.jpg', 'RAIoT Labs at IIT Jodhpur')" data-aos="fade-up" data-aos-delay="300">
+                  <img src="images/prometeo-4.jpg" alt="RAIoT Labs at IIT Jodhpur">
+                  <div class="gallery-caption">
+                    <span>RAIoT Labs at IIT Jodhpur</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/prometeo-5.jpg', 'Me at IIT Jodhpur')" data-aos="fade-up" data-aos-delay="400">
+                  <img src="images/prometeo-5.jpg" alt="Me at IIT Jodhpur">
+                  <div class="gallery-caption">
+                    <span>Me at IIT Jodhpur</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+              </div>
             </div>
-            <a href="https://www.linkedin.com/posts/raiot-labs-amity-university-rajasthan_raiot-mnitjaipur-hackathon2024-ugcPost-7396937959838625792-vKj5" target="_blank" class="cta-btn">
-              <i class="fab fa-linkedin"></i> View Post on LinkedIn
-            </a>
           </div>
 
-          <div class="tags">
-            <span class="tag">MNIT Jaipur (2025)</span>
-            <span class="tag">🥉 3rd Place Hackathon</span>
-            <span class="tag">CTF Cybersecurity (CRYX)</span>
-            <span class="tag">AeroQuest RC Aircraft</span>
-            <span class="tag">Project-A-Thon</span>
-            <span class="tag">RAIoT Labs</span>
+          <!-- IIT Roorkee Cognizance 2025 — Mar 2025 -->
+          <div class="timeline-item" data-categories="robotics chess" data-aos="fade-up" data-aos-delay="100">
+            <span class="timeline-dot"></span>
+            <span class="timeline-date">Mar 2025</span>
+            <div class="card">
+              <div class="event-head">
+                <div>
+                  <h3>IIT Roorkee Tech Fest — Cognizance 2025</h3>
+                  <p class="event-role">Participant &amp; Competitor <span class="event-meta">• IIT Roorkee,
+                      Uttarakhand</span></p>
+                </div>
+                <a href="https://www.linkedin.com/posts/cheedella-sai-nikhil-b826b4326_iitroorkee-cognizance2025-trailblaze-activity-7324377757621133312-gWmv"
+                  target="_blank" class="cta-btn">
+                  <i class="fab fa-linkedin"></i> View Post on LinkedIn
+                </a>
+              </div>
+
+              <div class="tags">
+                <span class="tag">IIT Roorkee</span>
+                <span class="tag">Cognizance 2025</span>
+                <span class="tag">TrailBlaze (Line Follower)</span>
+                <span class="tag">Grand Master’s Gambit (Chess)</span>
+                <span class="tag">RAIoT Labs</span>
+                <span class="tag">Tech Fest Exposure</span>
+              </div>
+
+              <p class="event-desc">
+                Honored and excited to be part of <strong>Cognizance 2025</strong> at <strong>IIT Roorkee</strong> —
+                one of India’s premier technical festivals representing <strong>RAIoT Labs (Amity University
+                Rajasthan)</strong>. Participated in <strong>TrailBlaze (Line Follower Robot Competition)</strong>,
+                testing custom robotics and autonomous navigation algorithms, and <strong>Grand Master’s Gambit (Chess
+                Tournament)</strong>, honing strategic decision-making and problem solving under pressure.
+              </p>
+
+              <div class="learned-callout">
+                <i class="fas fa-lightbulb"></i>
+                <div><strong>What I learned:</strong> consistent testing beat last-minute fixes on the TrailBlaze track,
+                  and competitive chess sharpened how I think several moves ahead under time pressure.</div>
+              </div>
+
+              <h4 class="gallery-title">📸 Event Photo Gallery (Click to expand)</h4>
+              <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal('images/roorkee-1.jpg', 'Cognizance 2025 Highlights')" data-aos="fade-up">
+                  <img src="images/roorkee-1.jpg" alt="IIT Roorkee Cognizance 2025 Photo 1">
+                  <div class="gallery-caption">
+                    <span>Cognizance 2025 Highlights</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/roorkee-2.jpg', 'James Thomson Building, IIT Roorkee')" data-aos="fade-up" data-aos-delay="100">
+                  <img src="images/roorkee-2.jpg" alt="James Thomson Building, IIT Roorkee">
+                  <div class="gallery-caption">
+                    <span>James Thomson Building, IIT Roorkee</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/roorkee-3.jpg', 'Grand Master’s Gambit Chess')" data-aos="fade-up" data-aos-delay="200">
+                  <img src="images/roorkee-3.jpg" alt="Grand Master’s Gambit Chess">
+                  <div class="gallery-caption">
+                    <span>Grand Master’s Gambit Chess</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/roorkee-4.jpg', 'IIT Roorkee Campus Experience')" data-aos="fade-up" data-aos-delay="300">
+                  <img src="images/roorkee-4.jpg" alt="Campus & Event Discussions">
+                  <div class="gallery-caption">
+                    <span>IIT Roorkee Campus Experience</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/roorkee-5.jpg', 'RAIoT Labs Team')" data-aos="fade-up" data-aos-delay="400">
+                  <img src="images/roorkee-5.jpg" alt="RAIoT Labs at IIT Roorkee">
+                  <div class="gallery-caption">
+                    <span>RAIoT Labs Team</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/roorkee-6.jpg', 'Event Experience')" data-aos="fade-up" data-aos-delay="500">
+                  <img src="images/roorkee-6.jpg" alt="Cognizance 2025 Experience">
+                  <div class="gallery-caption">
+                    <span>Event Experience</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <p style="color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 16px;">
-            Represented <strong>Amity University Rajasthan</strong> as part of <strong>Team RAIoT</strong> at Malaviya National Institute of Technology (MNIT) Jaipur in 2025. Pushed through an overnight <strong>24-Hour Hackathon</strong> to secure an impressive <strong>3rd Position 🥉</strong>, participated in the <strong>Capture The Flag (CTF) Cybersecurity Competition</strong> organized by <strong>CRYX (The Infosec Club of MNIT Jaipur)</strong> solving web exploitation, cryptography, forensics & OSINT challenges, and showcased custom aircraft prototypes in <strong>AeroQuest</strong>.
-          </p>
+          <!-- Google Developers & TFUG AI Bootcamp 2025 — Nov 2025 -->
+          <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+            <span class="timeline-dot"></span>
+            <span class="timeline-date">Nov 2025</span>
+            <div class="card">
+              <div class="event-head">
+                <div>
+                  <h3>AI Bootcamp 2025 — ML, GenAI & Prototype Building</h3>
+                  <p class="event-role">Attendee & Workshop Participant <span class="event-meta">• LNMIIT Jaipur</span></p>
+                </div>
+                <a href="https://www.linkedin.com/posts/cheedella-sai-nikhil-b826b4326_aibootcamp2025-tfugjaipur-gdgjaipur-activity-7391726246533177344-oadG"
+                  target="_blank" class="cta-btn">
+                  <i class="fab fa-linkedin"></i> View Post on LinkedIn
+                </a>
+              </div>
 
-          <h4 style="margin-top: 24px; color: #fff; font-size: 17px; margin-bottom: 14px;">📸 Event Photo Gallery (Click to expand)</h4>
-          <div class="gallery-grid">
-            <div class="gallery-item" onclick="openModal('images/mnit-ctf-cert.png')">
-              <img src="images/mnit-ctf-cert.png" alt="CTF Certificate of Participation (2025)">
-              <div class="gallery-caption">
-                <span>Capture The Flag (CTF) Certificate (2025)</span>
-                <i class="fas fa-search-plus"></i>
+              <div class="tags">
+                <span class="tag">AI Bootcamp 2025</span>
+                <span class="tag">Google for Developers</span>
+                <span class="tag">TFUG Jaipur</span>
+                <span class="tag">GDG Jaipur</span>
+                <span class="tag">Generative AI</span>
+                <span class="tag">TensorFlow & ML</span>
               </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/mnit-ctf-venue.jpg')">
-              <img src="images/mnit-ctf-venue.jpg" alt="CTF Competition Event Venue at MNIT Jaipur (2025)">
-              <div class="gallery-caption">
-                <span>CTF Competition Venue at MNIT (2025)</span>
-                <i class="fas fa-search-plus"></i>
+
+              <p class="event-desc">
+                Attended the hands-on <strong>AI Bootcamp 2025</strong> organized by <strong>Google for
+                Developers</strong>, <strong>TensorFlow User Group (TFUG) Jaipur</strong>, and <strong>GDG
+                Jaipur</strong> at <strong>The LNM Institute of Information Technology (LNMIIT)</strong>. Explored
+                Machine Learning, Generative AI, and prototype building connecting theoretical concepts to real-world AI
+                applications.
+              </p>
+
+              <div class="learned-callout">
+                <i class="fas fa-lightbulb"></i>
+                <div><strong>What I learned:</strong> watching GenAI prototypes built end-to-end showed me how ML ideas
+                  move from notebook to working demo — and how much momentum comes from learning inside developer
+                  communities like TFUG and GDG.</div>
               </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/mnit-plane.jpg')">
-              <img src="images/mnit-plane.jpg" alt="AeroQuest RC Aircraft Prototype (2025)">
-              <div class="gallery-caption">
-                <span>AeroQuest RC Aircraft Prototype (2025)</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/mnit-1.jpg')">
-              <img src="images/mnit-1.jpg" alt="24-Hour Hackathon 3rd Place Team (2025)">
-              <div class="gallery-caption">
-                <span>24-Hour Hackathon 3rd Place Team (2025)</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/mnit-2.jpg')">
-              <img src="images/mnit-2.jpg" alt="Project-A-Thon Prototype Showcase (2025)">
-              <div class="gallery-caption">
-                <span>Project-A-Thon Prototype Showcase (2025)</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/mnit-3.jpg')">
-              <img src="images/mnit-3.jpg" alt="Team RAIoT at MNIT Jaipur (2025)">
-              <div class="gallery-caption">
-                <span>Team RAIoT at MNIT Jaipur (2025)</span>
-                <i class="fas fa-search-plus"></i>
-              </div>
-            </div>
-            <div class="gallery-item" onclick="openModal('images/mnit-4.jpg')">
-              <img src="images/mnit-4.jpg" alt="Overnight Coding & Hackathon Session (2025)">
-              <div class="gallery-caption">
-                <span>Overnight Hackathon Coding (2025)</span>
-                <i class="fas fa-search-plus"></i>
+
+              <h4 class="gallery-title">📸 Event Photo Gallery (Click to expand)</h4>
+              <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal('images/bootcamp-1.jpg', 'AI Bootcamp 2025 Highlights')" data-aos="fade-up">
+                  <img src="images/bootcamp-1.jpg" alt="AI Bootcamp 2025 Photo 1">
+                  <div class="gallery-caption">
+                    <span>AI Bootcamp 2025 Highlights</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/bootcamp-2.jpg', 'GenAI & ML Workshop')" data-aos="fade-up" data-aos-delay="100">
+                  <img src="images/bootcamp-2.jpg" alt="TFUG & GDG Workshop Session">
+                  <div class="gallery-caption">
+                    <span>GenAI & ML Workshop</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/bootcamp-3.jpg', 'Venue at LNMIIT Jaipur')" data-aos="fade-up" data-aos-delay="200">
+                  <img src="images/bootcamp-3.jpg" alt="LNMIIT Event Venue">
+                  <div class="gallery-caption">
+                    <span>Venue at LNMIIT Jaipur</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/bootcamp-4.jpg', 'Leaderboard')" data-aos="fade-up" data-aos-delay="300">
+                  <img src="images/bootcamp-4.jpg" alt="AI Bootcamp 2025 Leaderboard">
+                  <div class="gallery-caption">
+                    <span>Leaderboard</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/bootcamp-5.jpg', 'Excited Goodies')" data-aos="fade-up" data-aos-delay="400">
+                  <img src="images/bootcamp-5.jpg" alt="Excited Goodies">
+                  <div class="gallery-caption">
+                    <span>Excited Goodies</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- RAIoT at MNIT Jaipur 2025 — Nov 2025 -->
+          <div class="timeline-item" data-categories="hackathons" data-aos="fade-up" data-aos-delay="300">
+            <span class="timeline-dot"></span>
+            <span class="timeline-date">Nov 2025</span>
+            <div class="card">
+              <div class="event-head">
+                <div>
+                  <h3>MNIT Jaipur Tech Fest & 24-Hour Hackathon (2025)</h3>
+                  <p class="event-role">3rd Position Winner • Hackathon & AeroQuest <span class="event-meta">• MNIT
+                      Jaipur (2025)</span></p>
+                </div>
+                <a href="https://www.linkedin.com/posts/raiot-labs-amity-university-rajasthan_raiot-mnitjaipur-hackathon2024-ugcPost-7396937959838625792-vKj5"
+                  target="_blank" class="cta-btn">
+                  <i class="fab fa-linkedin"></i> View Post on LinkedIn
+                </a>
+              </div>
+
+              <div class="tags">
+                <span class="tag">MNIT Jaipur (2025)</span>
+                <span class="tag">🥉 3rd Place Hackathon</span>
+                <span class="tag">CTF Cybersecurity (CRYX)</span>
+                <span class="tag">AeroQuest RC Aircraft</span>
+                <span class="tag">Project-A-Thon</span>
+                <span class="tag">RAIoT Club</span>
+              </div>
+
+              <p class="event-desc">
+                Represented <strong>Amity University Rajasthan</strong> as part of <strong>RAIoT Club</strong> at
+                Malaviya National Institute of Technology (MNIT) Jaipur in 2025. Pushed through an overnight <strong>24-Hour
+                Hackathon</strong> to secure an impressive <strong>3rd Position 🥉</strong>, participated in the
+                <strong>Capture The Flag (CTF) Cybersecurity Competition</strong> organized by <strong>CRYX (The Infosec
+                Club of MNIT Jaipur)</strong> solving web exploitation, cryptography, forensics & OSINT challenges, and
+                showcased custom aircraft prototypes in <strong>AeroQuest</strong>.
+              </p>
+
+              <div class="learned-callout">
+                <i class="fas fa-lightbulb"></i>
+                <div><strong>What I learned:</strong> an overnight hackathon taught me to scope an MVP fast, split work
+                  across the team, and keep shipping when everyone’s tired — plus hands-on CTF technique across web
+                  exploitation, cryptography, forensics and OSINT.</div>
+              </div>
+
+              <h4 class="gallery-title">📸 Event Photo Gallery (Click to expand)</h4>
+              <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal('images/mnit-ctf-cert.png', 'Capture The Flag (CTF) Certificate (2025)')" data-aos="fade-up">
+                  <img src="images/mnit-ctf-cert.png" alt="CTF Certificate of Participation (2025)">
+                  <div class="gallery-caption">
+                    <span>Capture The Flag (CTF) Certificate (2025)</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/mnit-ctf-venue.jpg', 'CTF Competition Venue at MNIT (2025)')" data-aos="fade-up" data-aos-delay="100">
+                  <img src="images/mnit-ctf-venue.jpg" alt="CTF Competition Event Venue at MNIT Jaipur (2025)">
+                  <div class="gallery-caption">
+                    <span>CTF Competition Venue at MNIT (2025)</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/mnit-plane.jpg', 'AeroQuest RC Aircraft Prototype (2025)')" data-aos="fade-up" data-aos-delay="200">
+                  <img src="images/mnit-plane.jpg" alt="AeroQuest RC Aircraft Prototype (2025)">
+                  <div class="gallery-caption">
+                    <span>AeroQuest RC Aircraft Prototype (2025)</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/mnit-1.jpg', 'RAIoT Club')" data-aos="fade-up" data-aos-delay="300">
+                  <img src="images/mnit-1.jpg" alt="RAIoT Club (2025)">
+                  <div class="gallery-caption">
+                    <span>RAIoT Club</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/mnit-2.jpg', 'Project-A-Thon Prototype Showcase (2025)')" data-aos="fade-up" data-aos-delay="400">
+                  <img src="images/mnit-2.jpg" alt="Project-A-Thon Prototype Showcase (2025)">
+                  <div class="gallery-caption">
+                    <span>Project-A-Thon Prototype Showcase (2025)</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/mnit-3.jpg', 'RAIoT Club at MNIT Jaipur (2025)')" data-aos="fade-up" data-aos-delay="500">
+                  <img src="images/mnit-3.jpg" alt="RAIoT Club at MNIT Jaipur (2025)">
+                  <div class="gallery-caption">
+                    <span>RAIoT Club at MNIT Jaipur (2025)</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('images/mnit-4.jpg', 'At AeroQuest')" data-aos="fade-up" data-aos-delay="600">
+                  <img src="images/mnit-4.jpg" alt="At AeroQuest (2025)">
+                  <div class="gallery-caption">
+                    <span>At AeroQuest</span>
+                    <i class="fas fa-search-plus"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
     </main>
@@ -693,10 +1116,119 @@
   <!-- Modal Lightbox -->
   <div class="modal" id="imageModal" onclick="closeModal()">
     <span class="modal-close" onclick="closeModal()">&times;</span>
-    <img class="modal-img" id="modalImg" src="" alt="Expanded View">
+    <figure class="modal-figure" onclick="event.stopPropagation()">
+      <img class="modal-img" id="modalImg" src="" alt="Expanded View">
+      <figcaption class="modal-caption" id="modalCaption"></figcaption>
+    </figure>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
   <script>
+    // AOS Animation Init — gallery images fade in staggered 100ms apart
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 80
+    });
+
+    // Cyan particle network background (dots + linking lines, full page)
+    (function () {
+      const canvas = document.getElementById('net-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const COLORS = ['56, 189, 248', '34, 211, 238', '139, 243, 201'];
+      const LINK_DIST = 120, MOUSE_DIST = 160;
+      let w, h, dots = [];
+      const mouse = { x: null, y: null };
+
+      function build() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        const count = Math.min(90, Math.round((w * h) / 16000));
+        dots = [];
+        for (let i = 0; i < count; i++) {
+          dots.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.45,
+            vy: (Math.random() - 0.5) * 0.45,
+            r: Math.random() * 1.8 + 0.7,
+            c: COLORS[Math.floor(Math.random() * COLORS.length)],
+            a: Math.random() * 0.35 + 0.3
+          });
+        }
+      }
+
+      window.addEventListener('resize', build);
+      window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+      window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+      build();
+
+      function tick() {
+        ctx.clearRect(0, 0, w, h);
+        for (const d of dots) {
+          d.x += d.vx; d.y += d.vy;
+          if (d.x < 0 || d.x > w) d.vx *= -1;
+          if (d.y < 0 || d.y > h) d.vy *= -1;
+          ctx.beginPath();
+          ctx.fillStyle = 'rgba(' + d.c + ',' + d.a + ')';
+          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        for (let i = 0; i < dots.length; i++) {
+          for (let j = i + 1; j < dots.length; j++) {
+            const dx = dots[i].x - dots[j].x, dy = dots[i].y - dots[j].y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < LINK_DIST) {
+              ctx.strokeStyle = 'rgba(56, 189, 248,' + (0.14 * (1 - dist / LINK_DIST)).toFixed(3) + ')';
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(dots[i].x, dots[i].y);
+              ctx.lineTo(dots[j].x, dots[j].y);
+              ctx.stroke();
+            }
+          }
+          if (mouse.x !== null) {
+            const dx = dots[i].x - mouse.x, dy = dots[i].y - mouse.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < MOUSE_DIST) {
+              ctx.strokeStyle = 'rgba(139, 243, 201,' + (0.3 * (1 - dist / MOUSE_DIST)).toFixed(3) + ')';
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(dots[i].x, dots[i].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
+
+    // Dark / Light Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    if (currentTheme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      if (themeToggle) themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        let theme = document.documentElement.getAttribute('data-theme');
+        if (theme === 'light') {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'dark');
+          themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+          localStorage.setItem('theme', 'light');
+          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+      });
+    }
+
     // Hamburger menu toggle
     const menuBtn = document.getElementById('menuBtn');
     const navMenu = document.getElementById('navMenu');
@@ -710,15 +1242,44 @@
       });
     });
 
-    // Lightbox modal functions
-    function openModal(src) {
+    // Filter tabs
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+
+        timelineItems.forEach(item => {
+          const cats = (item.dataset.categories || '').split(' ').filter(Boolean);
+          const show = filter === 'all' || cats.includes(filter);
+          item.classList.toggle('filter-hide', !show);
+          if (show) {
+            // re-trigger a quick fade when an item comes back
+            item.style.animation = 'none';
+            void item.offsetWidth;
+            item.style.animation = 'fadeIn 0.4s ease';
+          }
+        });
+      });
+    });
+
+    // Lightbox modal (fade + scale transitions in CSS)
+    function openModal(src, caption) {
       document.getElementById('modalImg').src = src;
+      document.getElementById('modalCaption').textContent = caption || '';
       document.getElementById('imageModal').classList.add('show');
     }
 
     function closeModal() {
       document.getElementById('imageModal').classList.remove('show');
     }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
 
     // Starry background
     const canvas = document.getElementById('stars');
