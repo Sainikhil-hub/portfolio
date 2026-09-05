@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exposure & Tech Fests — Sai Nikhil</title>
+  <meta name="description" content="Exposure, Tech Fests, and Event Participation of Cheedella Sai Nikhil">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --muted: #94a3b8;
+      --accent: #8bf3c9;
+      --glass: rgba(255, 255, 255, 0.03);
+      --maxw: 1100px;
+      --radius: 12px;
+      --ff: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: var(--ff);
+      background: linear-gradient(180deg, #071021 0%, var(--bg) 100%);
+      color: #fdfdfe;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Starry background */
+    #stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: transparent;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--accent);
+    }
+
+    a:hover {
+      color: #fff;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(139, 243, 201, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 243, 201, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+      animation: bgMove 20s ease-in-out infinite alternate;
+      z-index: -1;
+    }
+
+    @keyframes bgMove {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(-50px);
+      }
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 36, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      animation: slideDown 1.5s ease;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .header-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 28px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      font-size: 18px;
+    }
+
+    nav a {
+      margin-left: 18px;
+      font-size: 14px;
+      color: var(--muted);
+      transition: 0.3s;
+    }
+
+    .nav1:hover {
+      color: white;
+      text-shadow: 0 0 6px var(--accent);
+    }
+
+    .nav1 {
+      text-decoration: none;
+    }
+
+    .menu-btn {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--accent);
+      transition: 0.3s;
+    }
+
+    .menu-btn:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), var(--glass));
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
+      transition: 0.4s;
+    }
+
+    section {
+      margin-top: 28px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #121c2d;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(139, 243, 201, 0.25);
+      border-color: var(--accent);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-caption {
+      padding: 12px 14px;
+      background: rgba(11, 18, 32, 0.95);
+      font-size: 13.5px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .gallery-caption i {
+      color: var(--accent);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 20px;
+    }
+
+    .tag {
+      background: rgba(139, 243, 201, 0.1);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      border: 1px solid rgba(139, 243, 201, 0.2);
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #042028;
+      font-weight: 600;
+      transition: 0.3s;
+      margin-top: 12px;
+    }
+
+    .cta-btn:hover {
+      background-color: #661475;
+      color: white;
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    /* Modal Lightbox */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(4, 10, 20, 0.92);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.show {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-img {
+      max-width: 90%;
+      max-height: 85vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(139, 243, 201, 0.4);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      color: white;
+      font-size: 32px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    footer {
+      margin-top: 36px;
+      padding: 18px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      animation: fadeIn 3s ease;
+    }
+
+    .footer-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .footer-icons a {
+      font-size: 32px;
+      color: var(--accent);
+      transition: 0.3s;
+    }
+
+    .footer-icons a:hover {
+      color: #fff;
+      text-shadow: 0 0 2px var(--accent);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .menu-btn {
+        display: block;
+      }
+
+      nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(15, 23, 36, 0.95);
+        backdrop-filter: blur(16px);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        display: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      nav.show {
+        display: flex;
+        animation: slideDown 0.3s ease;
+      }
+
+      nav a {
+        margin: 15px 0;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Star canvas -->
+  <canvas id="stars"></canvas>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">Cheedella Sai Nikhil</div>
+      <div class="menu-btn" id="menuBtn">
+        <i class="fas fa-bars"></i>
+      </div>
+      <nav id="navMenu">
+        <a class="nav1" href="index.html">Home</a>
+        <a class="nav1" href="index.html#about">About</a>
+        <a class="nav1" href="index.html#experience">Experience</a>
+        <a class="nav1" href="projects.html">Projects</a>
+        <a class="nav1" href="certifications.html">Certifications</a>
+        <a class="nav1" href="exposure.html" style="color:var(--accent);">Exposure</a>
+        <a class="nav1" href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <main>
+      <section>
+        <h2 class="section-title">Exposure & Tech Fests</h2>
+        <p class="subtitle">Highlights from national tech festivals, hackathons, and robotics competitions.</p>
+
+        <!-- IIT Jodhpur Prometeo '25 Showcase Card -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h3 style="color: var(--accent); font-size: 22px; margin-bottom: 6px;">IIT Jodhpur Tech Fest — Prometeo '25</h3>
+              <p style="font-weight: 600; color: #fff;">Participant & Competitor <span style="color: var(--muted); font-weight: normal; margin-left: 8px; font-size: 14px;">• IIT Jodhpur, Rajasthan (Feb 2025)</span></p>
+            </div>
+            <a href="https://www.linkedin.com/posts/cheedella-sai-nikhil-b826b4326_iitjodhpur-prometeo25-techfest-activity-7292179827401326592-NobB" target="_blank" class="cta-btn">
+              <i class="fab fa-linkedin"></i> View Post on LinkedIn
+            </a>
+          </div>
+
+          <div class="tags">
+            <span class="tag">IIT Jodhpur</span>
+            <span class="tag">Prometeo '25</span>
+            <span class="tag">Line Follower Robotics</span>
+            <span class="tag">Quantopia</span>
+            <span class="tag">RAIoT Labs</span>
+            <span class="tag">Tech Fest Exposure</span>
+          </div>
+
+          <p style="color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 16px;">
+            Had an incredible experience participating in <strong>Prometeo '25</strong>, the annual national technical festival of <strong>IIT Jodhpur</strong>. Represented <strong>RAIoT Labs (Amity University Rajasthan)</strong> in high-stakes competitions including <strong>Line Follower Robotics</strong> and <strong>Quantopia (Quant Finance)</strong>. The event provided hands-on experience in autonomous navigation testing, quantitative logic, and networking with tech enthusiasts and innovators from across the country.
+          </p>
+
+          <h4 style="margin-top: 24px; color: #fff; font-size: 17px; margin-bottom: 14px;">📸 Event Photo Gallery (Click to expand)</h4>
+          <div class="gallery-grid">
+            <div class="gallery-item" onclick="openModal('images/prometeo-1.jpg')">
+              <img src="images/prometeo-1.jpg" alt="Line Follower Competition">
+              <div class="gallery-caption">
+                <span>Line Follower Competition</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('images/prometeo-2.jpg')">
+              <img src="images/prometeo-2.jpg" alt="Quiz Competition Certificate">
+              <div class="gallery-caption">
+                <span>Quiz Competition Certificate</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('images/prometeo-3.jpg')">
+              <img src="images/prometeo-3.jpg" alt="Team & Campus Experience">
+              <div class="gallery-caption">
+                <span>Team & Campus Experience</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('images/prometeo-4.jpg')">
+              <img src="images/prometeo-4.jpg" alt="RAIoT Labs at IIT Jodhpur">
+              <div class="gallery-caption">
+                <span>RAIoT Labs at IIT Jodhpur</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('images/prometeo-5.jpg')">
+              <img src="images/prometeo-5.jpg" alt="Me at IIT Jodhpur">
+              <div class="gallery-caption">
+                <span>Me at IIT Jodhpur</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- IIT Roorkee Cognizance 2025 Showcase Card -->
+        <div class="card" style="margin-top: 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h3 style="color: var(--accent); font-size: 22px; margin-bottom: 6px;">IIT Roorkee Tech Fest — Cognizance 2025</h3>
+              <p style="font-weight: 600; color: #fff;">Participant & Competitor <span style="color: var(--muted); font-weight: normal; margin-left: 8px; font-size: 14px;">• IIT Roorkee, Uttarakhand</span></p>
+            </div>
+            <a href="https://www.linkedin.com/posts/cheedella-sai-nikhil-b826b4326_iitroorkee-cognizance2025-trailblaze-activity-7324377757621133312-gWmv" target="_blank" class="cta-btn">
+              <i class="fab fa-linkedin"></i> View Post on LinkedIn
+            </a>
+          </div>
+
+          <div class="tags">
+            <span class="tag">IIT Roorkee</span>
+            <span class="tag">Cognizance 2025</span>
+            <span class="tag">TrailBlaze (Line Follower)</span>
+            <span class="tag">Grand Master’s Gambit (Chess)</span>
+            <span class="tag">RAIoT Labs</span>
+            <span class="tag">Tech Fest Exposure</span>
+          </div>
+
+          <p style="color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 16px;">
+            Honored and excited to be part of <strong>Cognizance 2025</strong> at <strong>IIT Roorkee</strong> — one of India’s premier technical festivals representing <strong>RAIoT Labs (Amity University Rajasthan)</strong>. Participated in <strong>TrailBlaze (Line Follower Robot Competition)</strong>, testing custom robotics and autonomous navigation algorithms, and <strong>Grand Master’s Gambit (Chess Tournament)</strong>, honing strategic decision-making and problem solving under pressure.
+          </p>
+
+          <h4 style="margin-top: 24px; color: #fff; font-size: 17px; margin-bottom: 14px;">📸 Event Photo Gallery (Click to expand)</h4>
+          <div class="gallery-grid">
+            <div class="gallery-item" onclick="openModal('images/roorkee-1.jpg')">
+              <img src="images/roorkee-1.jpg" alt="IIT Roorkee Cognizance 2025 Photo 1">
+              <div class="gallery-caption">
+                <span>Cognizance 2025 Highlights</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('images/roorkee-2.jpg')">
+              <img src="images/roorkee-2.jpg" alt="TrailBlaze Line Follower Robot">
+              <div class="gallery-caption">
+                <span>TrailBlaze Robotics Event</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('images/roorkee-3.jpg')">
+              <img src="images/roorkee-3.jpg" alt="Grand Master’s Gambit Chess">
+              <div class="gallery-caption">
+                <span>Grand Master’s Gambit Chess</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('images/roorkee-4.jpg')">
+              <img src="images/roorkee-4.jpg" alt="Campus & Event Discussions">
+              <div class="gallery-caption">
+                <span>IIT Roorkee Campus Experience</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('images/roorkee-5.jpg')">
+              <img src="images/roorkee-5.jpg" alt="RAIoT Labs at IIT Roorkee">
+              <div class="gallery-caption">
+                <span>RAIoT Labs Team</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('images/roorkee-6.jpg')">
+              <img src="images/roorkee-6.jpg" alt="Cognizance 2025 Experience">
+              <div class="gallery-caption">
+                <span>Event Experience</span>
+                <i class="fas fa-search-plus"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-icons">
+        <a href="https://www.linkedin.com/in/cheedella-sai-nikhil-b826b4326/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/sainikhil-hub" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="mailto:cheedallasainikhil@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+      Sai Nikhil — Built with ❤️ • <a href="images/Cheedella Sai Nikhil Resume.pdf" target="_blank">Download Resume</a>
+    </footer>
+  </div>
+
+  <!-- Modal Lightbox -->
+  <div class="modal" id="imageModal" onclick="closeModal()">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <img class="modal-img" id="modalImg" src="" alt="Expanded View">
+  </div>
+
+  <script>
+    // Hamburger menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const navMenu = document.getElementById('navMenu');
+    menuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+
+    document.querySelectorAll('.nav1').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('show');
+      });
+    });
+
+    // Lightbox modal functions
+    function openModal(src) {
+      document.getElementById('modalImg').src = src;
+      document.getElementById('imageModal').classList.add('show');
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').classList.remove('show');
+    }
+
+    // Starry background
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+
+    for (let i = 0; i < 120; i++) {
+      stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5 + 0.5, d: Math.random() * 0.5 + 0.2 });
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white"; ctx.beginPath();
+      stars.forEach(s => { ctx.moveTo(s.x, s.y); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2, true); });
+      ctx.fill(); updateStars();
+    }
+    function updateStars() { stars.forEach(s => { s.y += s.d; if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; } }); }
+    function animate() { drawStars(); requestAnimationFrame(animate); } animate();
+  </script>
+</body>
+
+</html>
